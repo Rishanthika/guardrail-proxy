@@ -1,0 +1,16 @@
+.git
+.venv
+venv
+env
+__pycache__
+.pytest_cache
+*.pyc
+*.pt
+*.pth
+*.onnx
+*.zip
+*.tar.gz
+models
+datasets
+
+*.msi

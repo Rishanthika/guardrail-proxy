@@ -1,0 +1,68 @@
+# =============================================================================
+# Action Policy Engine — Rule Definitions
+# =============================================================================
+# This file is the single source of truth for how the guardrail proxy
+# evaluates every intercepted tool call. It is loaded dynamically by
+# src/policy_engine.py — no code changes are required to add, tighten, or
+# loosen a rule; just edit this file and restart (or hot-reload) the service.
+#
+# Each rule is: { tool, condition, action, reason }. For a given tool_name,
+# rules are checked TOP TO BOTTOM and the first one whose `condition`
+# evaluates true wins — so order matters, put the most specific/dangerous
+# checks first.
+#
+# `condition` is a small boolean expression evaluated by
+# src/condition_evaluator.py — a whitelisted AST walker, NOT eval()/exec().
+# The only variable in scope is `parameters` (this tool call's own
+# parameters dict). Supported syntax:
+#   comparisons : >  >=  <  <=  ==  !=
+#   membership  : in / not in            e.g. 'confidential' in parameters.file_path
+#   boolean     : and / or / not
+#   string ops  : .endswith() .startswith() .lower() .upper() .strip()
+# Anything else (imports, arbitrary calls, attribute chains onto anything
+# other than `parameters`, etc.) is rejected before it is ever evaluated.
+# =============================================================================
+
+# Global dry-run switch. When true, the Policy Engine still evaluates every
+# rule and writes full audit logs, but src/tools.py will NOT perform the
+# underlying mock action — every response is {"status": "simulated", ...}.
+# Can be overridden per-deployment via the DRY_RUN_OVERRIDE env var
+# (see config/settings.py).
+dry_run: false
+
+# Action applied when a tool_name has no rules at all, or when none of its
+# rules' conditions match. Kept conservative (log_and_allow) so unknown
+# tools/parameter shapes are still fully audited rather than silently
+# dropped or hard-blocked.
+default_action: "log_and_allow"
+
+rules:
+
+  # --- database_delete --------------------------------------------------
+  - tool: "database_delete"
+    condition: "parameters.record_count > 100"
+    action: "block"
+    reason: "Delete exceeds the 100-record safety threshold."
+
+  - tool: "database_delete"
+    condition: "parameters.record_count <= 100"
+    action: "log_and_allow"
+    reason: "Delete is within the safe threshold; logged for audit."
+
+  # --- send_email ----------------------------------------------------------
+  # Update the '@company.com' literal below if your trusted domain changes.
+  - tool: "send_email"
+    condition: "not parameters.email_to.endswith('@company.com')"
+    action: "require_hitl"
+    reason: "Recipient domain is outside the trusted company domain."
+
+  - tool: "send_email"
+    condition: "parameters.email_to.endswith('@company.com')"
+    action: "log_and_allow"
+    reason: "Recipient domain is trusted; logged for audit."
+
+  # --- read_file -------------------------------------------------------
+  - tool: "read_file"
+    condition: "'confidential' in parameters.file_path"
+    action: "log_and_allow"
+    reason: "Path touches confidential data; access permitted and logged."
