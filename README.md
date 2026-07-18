@@ -10,8 +10,9 @@
 [![Tests](https://img.shields.io/badge/tests-37%20passing-brightgreen)](#-running-the-tests)
 [![Docker](https://img.shields.io/badge/docker-ready-2496ED?logo=docker&logoColor=white)](#-docker)
 [![Deployed](https://img.shields.io/badge/Azure-App%20Service-0078D4?logo=microsoftazure&logoColor=white)](https://guardrail-proxy-app.azurewebsites.net)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
-*Built to Aivar Innovations' enterprise engineering standard — modular, decoupled, and production-ready by design, not by afterthought.*
+*A personal engineering project, built to enterprise production-readiness standards — modular, decoupled, and deployable by design, not by afterthought.*
 
 </div>
 
@@ -51,6 +52,7 @@ arbitrary code (see [Policy configuration](#-policy-configuration)).
 - [🩺 Operational Health](#-operational-health)
 - [🔒 Security Notes](#-security-notes)
 - [🗺️ Design Choices & Roadmap](#️-design-choices--roadmap)
+- [👤 Author](#-author)
 - [🤝 Contributing](#-contributing)
 - [📄 License](#-license)
 
@@ -604,10 +606,27 @@ application server, enabling efficient hosting of the FastAPI application.
 
 <br>
 
+## 👤 Author
+
+**Rishanthika S**
+Integrated M.Sc. in Data Science
+Department of Mathematics, Amrita School of Physical Sciences
+Amrita Vishwa Vidyapeetham, Ettimadai, Coimbatore
+
+Built as an independent project for the placement process — an
+end-to-end demonstration of production backend engineering: a declarative
+policy engine with a safe (non-`eval()`) expression evaluator, async
+FastAPI + SQLAlchemy under real concurrent load, structured logging and
+two-tier health checks, a live LLM provider integration, and a working
+cloud deployment (Azure App Service, with an AWS ECS/Lambda path also
+included) — end to end, tested, and running.
+
+<br>
+
 ## 🤝 Contributing
 
-This is an internal Aivar Innovations engineering asset. To propose a
-change:
+This started as a personal project, but suggestions, bug reports, and pull
+requests are welcome if you find it useful or spot something worth fixing:
 
 1. Add or update a policy rule in `config/policy.yaml`, or a test in
    `tests/`, alongside any code change — every behavior change should have
@@ -624,5 +643,28 @@ change:
 
 ## 📄 License
 
-Internal use — Aivar Innovations. Add your organization's license terms
-here before distributing outside the org.
+Released under the [MIT License](https://opensource.org/licenses/MIT).
+
+```
+MIT License
+
+Copyright (c) 2026 Rishanthika S
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+```
